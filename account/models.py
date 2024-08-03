@@ -19,4 +19,34 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
     
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='blog_images/')
+    summary = models.TextField()
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'user_type': 'doctor'})
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
+    CATEGORY_CHOICES = (
+        ('Mental Health', 'Mental Health'),
+        ('Heart Disease', 'Heart Disease'),
+        ('Covid19', 'Covid19'),
+        ('Immunization', 'Immunization'),
+        
+    )
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, default='General')
+
+    def __str__(self):
+        return self.title
+
+class PatientAppointment(models.Model):
+    patient = models.ForeignKey(User, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_appointments')
+    speciality = models.CharField(max_length=100)
+    ap_date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
 

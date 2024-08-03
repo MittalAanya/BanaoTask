@@ -3,7 +3,18 @@
 {% load static %}
 
 
-
+{% block link %}
+<div class="left-links">
+        {% if author.user_type == 'patient' %}
+            <a href="{% url 'posts' %}">Blogs</a>
+           
+        {% else %}
+            <a href="{% url 'create'%}">Create Blog</a>
+            <a href="{% url 'posts' %}">My Blogs</a>
+           
+        {% endif %}
+    </div>
+{% endblock link %}
 
 {% block logout %}
 <div class="right-links">
@@ -15,7 +26,7 @@
 
 <div class="containerd">
     <div class="profile">
-        <img src="{{ img }}" alt="P">
+        <!-- <img src="{{ img }}" alt="P"> -->
         <div class="role">
             {{ author.user_type }}
         </div>
